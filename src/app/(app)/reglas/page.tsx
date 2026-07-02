@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export const metadata = { title: "Reglas · Pronostico DMO" };
+export const metadata = { title: "Reglas · Pronostico" };
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (

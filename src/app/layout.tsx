@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = "https://mundial.dmo-srl.com";
-const SITE_NAME = "Pronostico DMO";
-const SITE_TITLE = "Pronostico DMO - Disfruta el mundial junto a DMO S.R.L.";
+const SITE_URL = "https://mundialito-dmo.vercel.app";
+const SITE_NAME = "Pronostico";
+const SITE_TITLE = "Pronostico - Disfruta el mundial junto a DMO S.R.L.";
 const SITE_DESC =
   "Pronosticá los partidos, sumá puntos y podrás ganar excelentes premios mientras te diviertes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Pronostico DMO",
+  title: "Pronostico",
   description: SITE_DESC,
   openGraph: {
     title: SITE_TITLE,

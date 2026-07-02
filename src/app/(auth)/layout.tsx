@@ -15,7 +15,7 @@ export default function AuthLayout({
         <div className="w-full max-w-sm">
           <div className="mb-6 text-center">
             <h1 className="text-3xl font-extrabold tracking-tight">
-              <span className="text-xl">⚽</span> <span className="text-gradient">Pronostico DMO</span>
+              <span className="text-xl">⚽</span> <span className="brand-text">Pronostico</span>
             </h1>
             <p className="mt-1 text-sm text-muted">
               Quiniela deportiva · pronostica y suma puntos
