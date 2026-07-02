@@ -31,7 +31,7 @@ npm install
 cp .env.local.example .env.local   # completar con URL + anon + service_role de Supabase
 npm run dev                         # http://localhost:3000
 ```
-- Hace falta un proyecto de Supabase con **todas las migraciones corridas** (0001→0017)
+- Hace falta un proyecto de Supabase con **todas las migraciones corridas** (0001→0019)
   para que la app funcione (login, datos, etc.). Para una base nueva, ver
   "Puesta en marcha" más abajo.
 - Para tocar la base ya existente: ejecutar SQL en el **SQL Editor** de Supabase.
@@ -49,20 +49,28 @@ npm run dev                         # http://localhost:3000
   (`admin.auth.admin.createUser({ email_confirm: true, ... })`): crea el usuario ya
   **confirmado y SIN enviar mail** → independiente de SMTP y del toggle "Confirm
   email". El perfil queda 'pendiente' (trigger) hasta que el admin lo aprueba. La
-  validación (correo, password, ciudad) ocurre en el servidor.
+  validación (correo, password, sucursal) ocurre en el servidor.
 - Red de seguridad: `setUserStatus` → 'aprobado' también hace `email_confirm: true`
   (idempotente), por si algún usuario fue creado por otra vía sin confirmar.
-- **Registro ampliado (fork salud)**: además del correo y nombre completo se piden
-  `birth_date`, `phone`, `work_city` (dropdown: 9 departamentos de Bolivia, con
-  CHECK en la tabla), `hospital` (texto libre), `specialty` (texto libre) y
-  `reference_phone` (opcional). El `emoji` es un avatar opcional. Todo se guarda en
-  `profiles`, lo copia el trigger `handle_new_user`, y el panel de Usuarios tiene
-  **"ver ficha"** para mostrarlo.
-- Roles: `super_admin` > `admin` > `apostador`. Registro **por aprobación**
-  (`status` pendiente → aprobado/rechazado).
+- **Registro mínimo (fork "trabajadores DMO")**: el alta pide solo **nick**
+  (`full_name`, el nombre visible en ranking/pronósticos — es un apodo, no el nombre
+  completo), **sucursal** (`branch`, dropdown de 7: Central/Oruro/La Paz/Cochabamba/
+  Santa Cruz/Sucre/Potosí, con CHECK `profiles_branch_chk`; lista en
+  `src/lib/account.ts` → `BRANCHES`, debe coincidir con el CHECK), **correo**,
+  **contraseña** y **emoji** opcional. TODO el resto de los datos personales se
+  recolecta después de entrar, en el **relevamiento** (ver "Módulos del fork"). La
+  ficha del panel de Usuarios muestra solo nick/correo/sucursal.
+- Roles: `super_admin` > `admin` > `apostador`, más **`gerencia`** (capacidad
+  **paralela**, no jerárquica). Registro **por aprobación** (`status` pendiente →
+  aprobado/rechazado).
   - apostador: apuesta y ve puntos/ranking.
   - admin: además abre/cierra apuestas, carga resultados y **aprueba/rechaza** usuarios.
   - super_admin: además ABM de equipos, alta de partidos, **asigna roles** y **resetea contraseñas**.
+  - **gerencia**: juega como apostador y además **LEE** el relevamiento y los reclamos
+    en `/rrhh`. NO gestiona la quiniela ni aprueba usuarios. En código se decide con
+    `canReadEmployeeData` (`src/lib/auth.ts`) / `requireEmployeeReader`, en SQL con
+    `is_gerencia()`. **`hasRole` NO sirve** para este acceso (gerencia comparte rango
+    con apostador, a propósito).
 - Reseteo de contraseña: el super_admin la pone en `123456` y marca
   `must_change_password`; el usuario debe cambiarla al entrar (`/cambiar-password`).
   Usa la **service_role key** solo en el servidor (`src/lib/supabase/admin.ts`).
@@ -90,7 +98,9 @@ npm run dev                         # http://localhost:3000
 - `src/lib/auth.ts` — `getProfile`, `requireApproved`, `requireRole`, `hasRole`.
 - `src/app/(auth)/` — login, register, pending. `/cambiar-password` (cambio forzado).
 - `src/app/(app)/` — layout con NavBar; partidos, mis-pronosticos, ranking, admin/*.
-- `src/components/NavBar.tsx` — barra responsive; **hamburguesa hasta `lg` (1024px)**.
+- `src/components/NavBar.tsx` — barra con **hamburguesa siempre visible** y **drawer
+  desde la derecha**; el logo dice **"Pronostico"** en color sólido `brand-text` (gris
+  suave en oscuro, no blanco puro; sin degradado).
 - `src/components/PartidosList.tsx` — pestañas Próximos / Finalizados.
 - `src/components/MatchCard.tsx` + `BetForm.tsx` + `VersusBanner.tsx` — apuesta y confirmación (con "versus").
 - `src/components/PredictionsButton.tsx` — modal de pronósticos (al cerrar), numerado, por orden de apuesta, resalta el propio.
@@ -100,8 +110,15 @@ npm run dev                         # http://localhost:3000
 - `src/app/(app)/admin/configuracion/` + `BetOpenHoursForm.tsx` — pantalla **Config** (super_admin) para editar la ventana de apertura (con modal de confirmación).
 - `src/components/admin/AdminMatchList.tsx` — gestión de partidos con pestañas Próximos/Finalizados.
 - `src/components/admin/UsuariosList.tsx` — usuarios con pestañas Pendientes/Aprobados/Rechazados; admin común puede aprobar/rechazar, super_admin asigna roles/resetea.
-- Tema claro/oscuro por tokens CSS en `src/app/globals.css` + `ThemeToggle.tsx` (default oscuro).
-- **Responsive móvil**: mis-pronosticos usa tarjetas en celular (tabla en desktop); ranking trunca el nombre con "…"; navbar hamburguesa hasta `lg`.
+- Tema **azul** claro/oscuro por tokens CSS en `src/app/globals.css` (`--c-brand`,
+  `--c-brandsoft`, `--c-glow`; botón `blue-600/700`) + `ThemeToggle.tsx` (default
+  oscuro). El acento es azul; el rojo se reserva para errores/eliminar. Clase
+  `brand-text` para el título del logo (gris suave en oscuro).
+- `src/components/AutoRefresh.tsx` — **polling** con `router.refresh()` (re-render del
+  server component con datos frescos, sin recargar la página ni perder estado).
+  Aplicado en `/pending` (5s, auto-ingreso al aprobar), `/ranking` (10s),
+  `/admin/usuarios` (8s) y `/rrhh` (12s). Las páginas usan `cookies()`/`force-dynamic`.
+- **Responsive móvil**: mis-pronosticos usa tarjetas en celular (tabla en desktop); ranking trunca el nombre con "…".
 - Nombres de equipos en español (traducidos del listado oficial; p. ej. "República Checa", "Qatar"). Son solo datos (`teams.name`); se corrigen con `UPDATE` o re-corriendo `seed_teams.sql` (upsert por código).
 
 ## Migraciones (resumen)
@@ -134,26 +151,62 @@ desactivar "Confirm email" → cargar envs (`NEXT_PUBLIC_SUPABASE_URL`,
 `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) → crear primer
 super_admin por SQL → deploy en Vercel (mismas envs).
 
-## Fork "salud" (en curso en este clon)
-Este clon se está convirtiendo en la versión de **personal de salud** (nuevo
-Supabase `vrjgdcfcnmptgfswvuye` + nuevo Vercel).
-- **Registro ampliado** — IMPLEMENTADO. El **login ahora es por correo real** (no
-  por usuario): se eliminó el `username` y el email sintético `dmo-srl.com`. Ver la
-  sección "Auth y roles" para el detalle de campos. Cuando la base estaba vacía,
-  esos cambios se hicieron **editando las migraciones base** (0001/0003/0006/0007/0012);
-  una vez en producción, los campos nuevos van como **migración numerada** que se
-  corre a mano (ej. `0015`: sub especialidad / residente / año) + se reflejan en los
-  fuentes 0001/0003.
-- **Otras funcionalidades nuevas**: a definir con el usuario.
-- Branding propio: **hecho** — la marca es **Pronostico DMO** (NavBar, layouts,
-  metadata, README, `package.json`). El emoji ⚽ se conserva.
+## Estado actual del fork "trabajadores DMO"
+Fork ya **en producción** (reemplazó la idea previa de "personal de salud").
+- **Repo**: `dev-maicol/mundialito`. **Deploy**: https://mundialito-dmo.vercel.app
+  (Vercel). **Supabase**: proyecto `odhqxibnwzmwyljswdwf` (base nueva, migraciones
+  0001→0019 corridas, sin seeds del Mundial). Solo existe el super_admin inicial.
+- `SITE_URL` / metadata en `src/app/layout.tsx` apuntan al dominio Vercel; la imagen
+  de compartir (OG) se genera por código en `src/app/opengraph-image.tsx`. **Si se
+  pone dominio propio, actualizar `SITE_URL` y redeployar** (si no, el preview de
+  WhatsApp/redes apunta al dominio viejo). El preview lo cachean las redes: forzar
+  re-scrape en el Facebook Sharing Debugger.
+- Branding: la marca es **"Pronostico"** (sin "DMO" en el texto; el logo `dmo.png` se
+  mantiene). Tema **azul**. El emoji ⚽ se conserva.
+- **Migraciones/seed se corrieron por Node + `pg`** usando `DATABASE_URL` (Session
+  Pooler de Supabase, 5432) — es la única parte con pooling y es solo ops. La app
+  **no** abre conexiones directas a Postgres (todo por HTTP a PostgREST/GoTrue), así
+  que no hay connection pooling en runtime.
+
+## Módulos del fork (relevamiento / buzón / RRHH)
+- **Relevamiento** (`/relevamiento`): ficha de datos del personal. Wizard de 7
+  secciones con **borrador** (editable) → **finalizado** (bloquea al trabajador;
+  Gerencia reabre con `reabrir_relevamiento`). El cuestionario está en
+  **`src/lib/relevamiento.ts`** (`SECTIONS`) = ÚNICA fuente de verdad (lo consumen el
+  wizard, el guardado y la ficha de RRHH). Campos `store:'survey'` (secciones 3-7) →
+  JSONB `employee_records.survey_answers` (**agregar/quitar NO necesita migración**);
+  `store:'column'` (secciones 1-2) → columna en `employee_records` (necesita migración
+  + campo en el tipo `EmployeeRecord`). Listas repetibles `children`/`assets`. Lógica
+  en `relevamiento/actions.ts`; UI `components/relevamiento/RelevamientoWizard.tsx`.
+- **Buzón** (`/buzon`): reclamos **anónimos**. Borrador atado al usuario
+  (`complaint_drafts`, solo el dueño lo ve). Al enviar, el RPC `finalizar_reclamo`
+  copia el texto a `complaints` **sin `user_id`** (solo fecha) y marca
+  `complaint_submissions` (tope **1/usuario**). La identidad se corta: un reclamo
+  finalizado NO se reabre; Gerencia solo puede `liberar_reclamo` para permitir uno
+  nuevo. UI `components/buzon/BuzonForm.tsx`.
+- **RRHH** (`/rrhh`): panel de lectura para `gerencia`/`super_admin` (guard
+  `requireEmployeeReader`). Pestañas Fichas (con reabrir), Reclamos (anónimos) y
+  Envíos del buzón (con liberar). `components/rrhh/RrhhPanel.tsx` + `rrhh/actions.ts`.
+- **Aviso de cambios sin guardar**: hook `src/lib/useUnsavedChangesWarning.ts`
+  (beforeunload + intercepta clics en links del menú) usado en relevamiento y buzón.
+- DB: migración **0018** (tablas + rol `gerencia` + RLS + RPCs) y **0019** (registro
+  mínimo + `branch` + mover `birth_date`/`phone` a `employee_records`). RLS estricta:
+  el dueño edita solo en borrador; datos sensibles solo `gerencia`/`super_admin`;
+  nada expuesto a `anon`.
+
+## Pendientes / deuda técnica
+- **Seguridad (RLS), sin resolver** (de una revisión previa):
+  - `profiles_update_admin` (`0002_rls.sql`) no está limitada por columna → un `admin`
+    puede cambiar rol/estado de cualquier no-super_admin pegándole directo a PostgREST.
+    Fix: limitar la policy a la columna `status`.
+  - Vista `standings` es `security_definer` y `anon` tiene `grant select` → expone
+    nombres+puntos sin login. Fix: `security_invoker=on` + revocar select a `anon`.
+- **Rotar las API keys de Supabase**: la `service_role` se pegó en el chat durante el
+  setup. Conviene regenerarla (Settings → API) y actualizar `.env.local` + Vercel.
 
 ## Forkear de nuevo (otras instancias)
-Se planean más forks del mismo sistema cambiando **solo el formulario de registro**
-(ej. **"Mundial trabajadores DMO"**: datos de empleado en vez de personal de salud).
-La guía completa está en **`docs/FORK.md`**: setup del repo/Supabase/Vercel, branding,
-y —lo importante— la **cadena exacta para agregar/quitar/cambiar un campo del
-registro** (columna en `profiles` → trigger `handle_new_user` → tipo `Profile` →
-`RegisterForm.tsx` → `register/actions.ts` → ficha en `UsuariosList.tsx`). El resto
-del sistema (auth por correo + código, aprobación, pronósticos, eliminatoria,
-ranking) se reutiliza sin cambios.
+Guía completa en **`docs/FORK.md`**: setup repo/Supabase/Vercel, branding, y la
+**cadena exacta** para cambiar campos: del **registro** (§6.1: columna en `profiles`
+→ trigger `handle_new_user` → `Profile` → `RegisterForm.tsx` → `register/actions.ts`
+→ ficha en `UsuariosList.tsx`) y del **relevamiento** (§6.2: casi todo se toca solo en
+`src/lib/relevamiento.ts`). El resto del sistema se reutiliza sin cambios.
