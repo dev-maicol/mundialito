@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import PasswordInput from "@/components/PasswordInput";
 import { clearMustChangePassword } from "@/app/cambiar-password/actions";
 import { DEFAULT_RESET_PASSWORD } from "@/lib/constants";
 
@@ -82,26 +83,22 @@ export default function ChangePasswordForm() {
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <label className="flex flex-col gap-1 text-sm">
         Nueva contraseña
-        <input
-          type="password"
+        <PasswordInput
           required
           minLength={6}
           value={p1}
-          onChange={(e) => setP1(e.target.value)}
+          onChange={setP1}
           autoComplete="new-password"
-          className="input"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm">
         Repetir contraseña
-        <input
-          type="password"
+        <PasswordInput
           required
           minLength={6}
           value={p2}
-          onChange={(e) => setP2(e.target.value)}
+          onChange={setP2}
           autoComplete="new-password"
-          className="input"
         />
       </label>
 

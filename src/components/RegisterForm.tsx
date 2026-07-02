@@ -5,6 +5,7 @@ import Link from "next/link";
 import { normalizeEmail, validateEmail, BRANCHES } from "@/lib/account";
 import { DEFAULT_EMOJI } from "@/lib/emojis";
 import EmojiPicker from "@/components/EmojiPicker";
+import PasswordInput from "@/components/PasswordInput";
 import { registerUser } from "@/app/(auth)/register/actions";
 
 // El código ya fue validado en la pantalla previa (RegisterFlow). Lo recibimos
@@ -115,14 +116,12 @@ export default function RegisterForm({ code }: { code: string }) {
 
       <label className="flex flex-col gap-1 text-sm">
         <span>Contraseña <span className="text-red-500">*</span></span>
-        <input
-          type="password"
+        <PasswordInput
           required
           minLength={6}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
           autoComplete="new-password"
-          className="input"
         />
       </label>
 

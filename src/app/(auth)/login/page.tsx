@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { normalizeEmail } from "@/lib/account";
 import BallLoader from "@/components/BallLoader";
+import PasswordInput from "@/components/PasswordInput";
 
 function LoginForm() {
   const router = useRouter();
@@ -73,13 +74,11 @@ function LoginForm() {
       </label>
       <label className="flex flex-col gap-1 text-sm">
         Contraseña
-        <input
-          type="password"
+        <PasswordInput
           required
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
           autoComplete="current-password"
-          className="input"
         />
       </label>
       {error && <p className="text-sm text-red-500">{error}</p>}
