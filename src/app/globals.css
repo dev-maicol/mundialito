@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ---------- Tokens de tema ---------- */
+@theme inline {
+  --color-base: var(--c-base);
+  --color-surface: var(--c-surface);
+  --color-elevated: var(--c-elevated);
+  --color-hover: var(--c-hover);
+  --color-line: var(--c-line);
+  --color-linestrong: var(--c-linestrong);
+  --color-fg: var(--c-fg);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+  --color-brand: var(--c-brand);
+  --color-brandsoft: var(--c-brandsoft);
+  --color-overlay: var(--c-overlay);
+}
+
+/* Tema oscuro (por defecto) */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --c-base: #020617;
+  --c-surface: rgba(15, 23, 42, 0.72);
+  --c-elevated: #1e293b;
+  --c-hover: rgba(30, 41, 59, 0.45);
+  --c-line: #1e293b;
+  --c-linestrong: #334155;
+  --c-fg: #f1f5f9;
+  --c-muted: #94a3b8;
+  --c-faint: #64748b;
+  --c-brand: #6ee7b7;
+  --c-brandsoft: rgba(16, 185, 129, 0.15);
+  --c-overlay: rgba(2, 6, 23, 0.8);
+  --c-glow: rgba(16, 185, 129, 0.14);
+}
+
+/* Tema claro */
+[data-theme="light"] {
+  color-scheme: light;
+  --c-base: #f1f5f9;
+  --c-surface: #ffffff;
+  --c-elevated: #f1f5f9;
+  --c-hover: rgba(15, 23, 42, 0.04);
+  --c-line: #e2e8f0;
+  --c-linestrong: #cbd5e1;
+  --c-fg: #0f172a;
+  --c-muted: #64748b;
+  --c-faint: #94a3b8;
+  --c-brand: #047857;
+  --c-brandsoft: rgba(16, 185, 129, 0.12);
+  --c-overlay: rgba(248, 250, 252, 0.85);
+  --c-glow: rgba(16, 185, 129, 0.1);
+}
+
+@layer base {
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: var(--c-base);
+    color: var(--c-fg);
+    background-image:
+      radial-gradient(60rem 36rem at 50% -12rem, var(--c-glow), transparent 60%),
+      radial-gradient(48rem 30rem at 100% 0, var(--c-glow), transparent 65%);
+    background-attachment: fixed;
+  }
+
+  * {
+    scrollbar-color: var(--c-elevated) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--c-elevated);
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-lg shadow-black/20 backdrop-blur-sm;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-linestrong bg-elevated px-3 py-2.5 text-fg outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30;
+  }
+  .input::placeholder {
+    color: var(--c-faint);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-150 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100;
+    background-image: linear-gradient(to bottom, #34d399, #10b981);
+    box-shadow:
+      0 6px 18px -4px rgba(16, 185, 129, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+    box-shadow:
+      0 8px 24px -4px rgba(16, 185, 129, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-elevated px-4 py-2.5 text-sm font-medium text-fg transition-all duration-150 hover:border-linestrong active:scale-[0.97] disabled:opacity-50;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all duration-150 active:scale-[0.97] disabled:opacity-50;
+    background-image: linear-gradient(to bottom, #f87171, #ef4444);
+    box-shadow: 0 6px 18px -4px rgba(239, 68, 68, 0.5);
+  }
+  .btn-danger:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent;
+  }
+}
+
+/* ---------- Glow de las medallas del ranking ---------- */
+@keyframes glow-gold {
+  0%, 100% { filter: drop-shadow(0 0 1px rgba(250, 204, 21, 0.35)); }
+  50%      { filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.7)); }
+}
+@keyframes glow-silver {
+  0%, 100% { filter: drop-shadow(0 0 1px rgba(148, 163, 184, 0.35)); }
+  50%      { filter: drop-shadow(0 0 5px rgba(148, 163, 184, 0.7)); }
+}
+@keyframes glow-bronze {
+  0%, 100% { filter: drop-shadow(0 0 1px rgba(217, 119, 6, 0.35)); }
+  50%      { filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.65)); }
+}
+.glow-gold   { animation: glow-gold 3s ease-in-out infinite; }
+.glow-silver { animation: glow-silver 3.4s ease-in-out infinite; }
+.glow-bronze { animation: glow-bronze 3.8s ease-in-out infinite; }
+
+/* Brillo pulsante del "VS" */
+@keyframes vs-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.3); }
+  50%      { box-shadow: 0 0 26px rgba(16, 185, 129, 0.8); }
+}
+.vs-glow { animation: vs-glow 2s ease-in-out infinite; }

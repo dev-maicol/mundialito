@@ -1,0 +1,16 @@
+-- ============================================================
+-- seed.sql — Datos iniciales y promoción del primer super_admin
+-- ============================================================
+--
+-- 1) Registrá tu cuenta normalmente desde la app (/register) con tu correo real.
+-- 2) Luego ejecutá ESTA sentencia en el SQL Editor de Supabase,
+--    reemplazando el correo por el tuyo, para convertirte en super_admin:
+--
+--    update public.profiles
+--    set role = 'super_admin', status = 'aprobado'
+--    where lower(email) = lower('tu_correo@ejemplo.com');
+--
+-- A partir de ahí podés crear partidos y aprobar a otros usuarios desde el panel.
+--
+-- 3) Para cargar los 48 equipos del Mundial 2026 de una sola vez, ejecutá
+--    el archivo `seed_teams.sql`.
