@@ -8,10 +8,10 @@ marcadores y suman puntos. **Next.js 16 (App Router, TS) + Supabase
 **Supabase** (capas gratuitas). Idioma: español (es-BO). Zona horaria de
 referencia: **Bolivia (UTC−4)**.
 
-Esta es la versión **Pronostico DMO** (quiniela para **personal de salud**),
-forkeada de la versión Mundial. El remoto `origin` todavía apunta a
-`dev-maicol/apuestita.git`; si se crea un repo dedicado, actualizar la URL de
-clonado de abajo.
+Esta es la versión **Pronostico DMO** para **trabajadores DMO**: registro mínimo
+(nick + sucursal + correo + contraseña) + módulo de **relevamiento de datos del
+personal** + **buzón de reclamos anónimo** + rol `gerencia`. Remoto `origin`:
+`dev-maicol/mundialito.git`.
 
 ## Convenciones de trabajo
 - Antes de cada commit: `npm run lint` y `npm run build` deben pasar.
@@ -25,8 +25,8 @@ clonado de abajo.
 
 ## Clonar y trabajar localmente
 ```bash
-git clone https://github.com/dev-maicol/apuestita.git
-cd apuestita
+git clone https://github.com/dev-maicol/mundialito.git
+cd mundialito
 npm install
 cp .env.local.example .env.local   # completar con URL + anon + service_role de Supabase
 npm run dev                         # http://localhost:3000
