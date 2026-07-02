@@ -135,7 +135,7 @@ export const SECTIONS: Section[] = [
       { key: "s4_materials", label: "¿Cuenta con los materiales necesarios para realizar su trabajo?", kind: "yesno", store: "survey" },
       { key: "s4_equipment", label: "¿Cuenta con equipos, herramientas o sistemas suficientes?", kind: "yesno", store: "survey" },
       { key: "s4_corp_number", label: "Número corporativo asignado (indicar número y si está activo)", kind: "text", store: "survey" },
-      { key: "s4_work_number", label: "Si no tiene corporativo, ¿con qué número trabaja? ¿Autoriza su uso laboral?", kind: "text", store: "survey" },
+      { key: "s4_work_number", label: "Si no tiene corporativo, ¿con qué número trabaja?", kind: "text", store: "survey" },
       { key: "s4_corp_phone", label: "Celular corporativo / chip / línea de la empresa (estado)", kind: "text", store: "survey" },
       { key: "assets", label: "Equipos y bienes asignados", kind: "assets", store: "special", help: "Laptop, impresora, vehículo, instrumental, etc. Detallá marca/modelo/serie y estado." },
       { key: "s4_corp_email", label: "Correo corporativo asignado (indicar correo y si tiene acceso)", kind: "text", store: "survey" },
