@@ -123,6 +123,14 @@
   .text-gradient {
     @apply bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent;
   }
+
+  /* Título de la marca: gris suave en oscuro (no blanco puro); normal en claro */
+  .brand-text {
+    color: #cbd5e1;
+  }
+  [data-theme="light"] .brand-text {
+    color: var(--c-fg);
+  }
 }
 
 /* ---------- Glow de las medallas del ranking ---------- */

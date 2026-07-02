@@ -35,13 +35,13 @@ function Brand() {
     >
       <Image
         src="/dmo.png"
-        alt="Pronostico DMO"
+        alt="Pronostico"
         width={30}
         height={30}
         priority
         className="shrink-0"
       />
-      <span className="text-gradient">Pronostico DMO</span>
+      <span className="brand-text">Pronostico</span>
 
       {/* Pelotita que recorre por delante del logo y el texto, rebotando */}
       {!reduce && (
@@ -111,42 +111,8 @@ export default function NavBar({
         <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-3">
           <Brand />
 
-          {/* Links desktop */}
-          <nav className="hidden flex-1 items-center gap-1 lg:flex">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
-                  isActive(l.href)
-                    ? "bg-brandsoft text-brand"
-                    : "text-muted hover:bg-elevated hover:text-fg"
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Derecha desktop */}
-          <div className="hidden items-center gap-3 lg:flex">
-            <div className="flex min-w-0 items-center gap-2">
-              <Avatar emoji={profile.emoji} />
-              <span className="flex min-w-0 items-center gap-1 text-sm font-medium text-fg">
-                <span className="max-w-[11rem] truncate">{profile.name}</span>
-                {profile.roleLabel && (
-                  <span className="badge shrink-0 bg-brandsoft text-brand">
-                    {profile.roleLabel}
-                  </span>
-                )}
-              </span>
-            </div>
-            <ThemeToggle />
-            <LogoutButton />
-          </div>
-
-          {/* Derecha móvil */}
-          <div className="flex flex-1 items-center justify-end gap-2 lg:hidden">
+          {/* Barra compacta: la hamburguesa se muestra siempre */}
+          <div className="flex flex-1 items-center justify-end gap-2">
             <ThemeToggle />
             <Avatar emoji={profile.emoji} />
             <button
@@ -160,12 +126,12 @@ export default function NavBar({
         </div>
       </header>
 
-      {/* Drawer móvil (desde la izquierda), fuera del header vía portal */}
+      {/* Drawer del menú (desde la derecha), fuera del header vía portal */}
       <Portal>
         <AnimatePresence>
           {open && (
             <motion.div
-              className="fixed inset-0 z-50 lg:hidden"
+              className="fixed inset-0 z-50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -175,10 +141,10 @@ export default function NavBar({
                 onClick={() => setOpen(false)}
               />
               <motion.aside
-                className="absolute left-0 top-0 flex h-full w-72 max-w-[80%] flex-col border-r border-line bg-surface p-5 shadow-2xl"
-                initial={{ x: "-100%" }}
+                className="absolute right-0 top-0 flex h-full w-72 max-w-[80%] flex-col border-l border-line bg-surface p-5 shadow-2xl"
+                initial={{ x: "100%" }}
                 animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
+                exit={{ x: "100%" }}
                 transition={{ type: "spring", stiffness: 320, damping: 34 }}
               >
                 <div className="mb-6 flex items-center justify-between">
