@@ -1,15 +1,15 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, ChevronDown, Copy } from "lucide-react";
 import type { Profile, UserStatus } from "@/lib/types";
 import { BRANCHES } from "@/lib/account";
 import UserControls from "@/components/admin/UserControls";
 import ResetPasswordButton from "@/components/admin/ResetPasswordButton";
 
-// Arma el listado de aprobados agrupado por sucursal, formateado para WhatsApp
-// (sucursal en negrita con *asteriscos*). Excluye a los super_admin.
-function buildWhatsappText(list: Profile[]): string {
+// Agrupa los participantes (sin super_admin) por sucursal, con las sucursales
+// ordenadas según BRANCHES y los nombres alfabéticos dentro de cada una.
+function groupByBranch(list: Profile[]): { total: number; branches: [string, string[]][] } {
   const participantes = list.filter((u) => u.role !== "super_admin");
   const byBranch = new Map<string, string[]>();
   for (const u of participantes) {
@@ -18,17 +18,43 @@ function buildWhatsappText(list: Profile[]): string {
     byBranch.get(branch)!.push(u.full_name || "—");
   }
   const order: string[] = [...BRANCHES, "Sin sucursal"];
-  const branches = Array.from(byBranch.keys()).sort((a, b) => {
-    const ia = order.indexOf(a);
-    const ib = order.indexOf(b);
-    return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
-  });
-  const parts: string[] = [`*Total: ${participantes.length} participantes*`, ""];
-  for (const branch of branches) {
-    const names = byBranch.get(branch)!.sort((a, b) => a.localeCompare(b));
+  const branches = Array.from(byBranch.keys())
+    .sort((a, b) => {
+      const ia = order.indexOf(a);
+      const ib = order.indexOf(b);
+      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+    })
+    .map((branch) => [branch, byBranch.get(branch)!.sort((a, b) => a.localeCompare(b))] as [string, string[]]);
+  return { total: participantes.length, branches };
+}
+
+// Listado completo agrupado por sucursal (sucursal en negrita con *asteriscos*).
+function buildWhatsappText(list: Profile[]): string {
+  const { total, branches } = groupByBranch(list);
+  const parts: string[] = [`*Total: ${total} participantes*`, ""];
+  for (const [branch, names] of branches) {
     parts.push(`*${branch}* (${names.length})`);
     names.forEach((n, i) => parts.push(`${i + 1}. ${n}`));
     parts.push("");
+  }
+  return parts.join("\n").trim();
+}
+
+// Listado de una sola sucursal.
+function buildBranchText(list: Profile[], branch: string): string {
+  const match = groupByBranch(list).branches.find(([b]) => b === branch);
+  const names = match?.[1] ?? [];
+  const parts: string[] = [`*${branch}* (${names.length})`];
+  names.forEach((n, i) => parts.push(`${i + 1}. ${n}`));
+  return parts.join("\n").trim();
+}
+
+// Solo los totales: conteo por sucursal + total general, sin nombres.
+function buildTotalsText(list: Profile[]): string {
+  const { total, branches } = groupByBranch(list);
+  const parts: string[] = [`*Total: ${total} participantes*`, ""];
+  for (const [branch, names] of branches) {
+    parts.push(`*${branch}*: ${names.length}`);
   }
   return parts.join("\n").trim();
 }
@@ -83,20 +109,23 @@ export default function UsuariosList({
     groups.pendiente.length > 0 ? "pendiente" : "aprobado",
   );
   const [openFicha, setOpenFicha] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  // Guarda qué opción se copió (para el ✓ momentáneo), o null.
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  async function copyAprobados() {
-    const text = buildWhatsappText(groups.aprobado);
+  async function copy(key: string, text: string) {
     try {
       await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey((k) => (k === key ? null : k)), 2000);
     } catch {
-      setCopied(false);
+      setCopiedKey(null);
     }
+    setMenuOpen(false);
   }
 
-  const hayParaCopiar = groups.aprobado.some((u) => u.role !== "super_admin");
+  const { branches: approvedBranches } = groupByBranch(groups.aprobado);
+  const hayParaCopiar = approvedBranches.length > 0;
 
   const tabs: { key: Tab; label: string }[] = [
     { key: "pendiente", label: "Pendientes" },
@@ -133,19 +162,81 @@ export default function UsuariosList({
         })}
         </div>
         {tab === "aprobado" && canManageRoles && hayParaCopiar && (
-          <button
-            type="button"
-            onClick={copyAprobados}
-            title="Copiar aprobados por ciudad (WhatsApp)"
-            aria-label="Copiar aprobados por ciudad"
-            className="shrink-0 rounded-lg border border-line p-2 text-muted transition hover:bg-elevated hover:text-fg"
-          >
-            {copied ? (
-              <Check size={18} className="text-brand" />
-            ) : (
-              <Copy size={18} />
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              title="Copiar para WhatsApp"
+              aria-label="Opciones de copia para WhatsApp"
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              className="flex items-center gap-1 rounded-lg border border-line p-2 text-muted transition hover:bg-elevated hover:text-fg"
+            >
+              {copiedKey ? (
+                <Check size={18} className="text-brand" />
+              ) : (
+                <Copy size={18} />
+              )}
+              <ChevronDown size={14} />
+            </button>
+
+            {menuOpen && (
+              <>
+                {/* Backdrop para cerrar al hacer clic afuera */}
+                <button
+                  type="button"
+                  aria-hidden
+                  tabIndex={-1}
+                  onClick={() => setMenuOpen(false)}
+                  className="fixed inset-0 z-10 cursor-default"
+                />
+                <div
+                  role="menu"
+                  className="absolute right-0 z-20 mt-1 max-h-80 w-60 overflow-y-auto rounded-xl border border-line bg-surface p-1 shadow-lg"
+                >
+                  <button
+                    role="menuitem"
+                    type="button"
+                    onClick={() => copy("all", buildWhatsappText(groups.aprobado))}
+                    className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-elevated"
+                  >
+                    Todos (por sucursal)
+                    {copiedKey === "all" && <Check size={16} className="text-brand" />}
+                  </button>
+                  <button
+                    role="menuitem"
+                    type="button"
+                    onClick={() => copy("totals", buildTotalsText(groups.aprobado))}
+                    className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-elevated"
+                  >
+                    Solo totales
+                    {copiedKey === "totals" && <Check size={16} className="text-brand" />}
+                  </button>
+
+                  <div className="my-1 border-t border-line" />
+                  <p className="px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted">
+                    Por sucursal
+                  </p>
+                  {approvedBranches.map(([branch, names]) => (
+                    <button
+                      key={branch}
+                      role="menuitem"
+                      type="button"
+                      onClick={() => copy(`branch:${branch}`, buildBranchText(groups.aprobado, branch))}
+                      className="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-elevated"
+                    >
+                      <span className="truncate">
+                        {branch} <span className="text-muted">({names.length})</span>
+                      </span>
+                      {copiedKey === `branch:${branch}` && (
+                        <Check size={16} className="shrink-0 text-brand" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
-          </button>
+          </div>
         )}
       </div>
 
