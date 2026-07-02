@@ -6,7 +6,7 @@ import { ImageResponse } from "next/og";
 // ZONA SEGURA: cuando una plataforma muestra el preview como miniatura cuadrada,
 // recorta al centro (≈630px de ancho, toda la altura). Por eso todo el contenido
 // importante vive en una franja central (~600px) y los laterales son solo fondo.
-export const alt = "Pronostico DMO - Disfruta el mundial junto a DMO S.R.L.";
+export const alt = "Pronostico - Disfruta el mundial junto a DMO S.R.L.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -61,7 +61,7 @@ export default function Image() {
               display: "flex",
             }}
           >
-            Pronostico DMO
+            Pronostico
           </div>
           <div
             style={{
@@ -70,7 +70,7 @@ export default function Image() {
               fontSize: 34,
               fontWeight: 600,
               lineHeight: 1.3,
-              color: "#a7f3d0",
+              color: "#bfdbfe",
               display: "flex",
               textAlign: "center",
             }}
