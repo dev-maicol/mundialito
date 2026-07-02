@@ -28,7 +28,7 @@ export default function ReglasPage() {
 
       <Section title="1. Participar">
         <ul className="flex list-disc flex-col gap-1 pl-5 text-sm">
-          <li>Creás tu cuenta con el código que te da tu representante comercial.</li>
+          <li>Creás tu cuenta con el código que te da la organización.</li>
           <li>Un administrador aprueba tu cuenta; recién ahí podés pronosticar.</li>
           <li>
             En <strong>Partidos</strong> vas a ver los que están <strong>abiertos</strong>:

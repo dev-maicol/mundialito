@@ -46,7 +46,7 @@ export default function RegisterFlow({ codeRequired }: { codeRequired: boolean }
     <form onSubmit={onCheck} className="flex flex-col gap-4">
       <h2 className="text-lg font-semibold">Código de registro</h2>
       <p className="text-sm text-muted">
-        Para el registro ingresa el código que te dio tu representante comercial.
+        Para el registro ingresa el código que te dio la organización.
       </p>
 
       <label className="flex flex-col gap-1 text-sm">
