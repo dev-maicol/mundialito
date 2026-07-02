@@ -2,8 +2,10 @@ import { requireEmployeeReader } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import RrhhPanel, { type EmployeeFull, type SubmissionRow } from "@/components/rrhh/RrhhPanel";
 import type { Complaint, EmployeeAsset, EmployeeChild, EmployeeRecord } from "@/lib/types";
+import AutoRefresh from "@/components/AutoRefresh";
 
 export const metadata = { title: "RRHH — Datos del personal" };
+export const dynamic = "force-dynamic";
 
 export default async function RrhhPage() {
   await requireEmployeeReader();
@@ -73,6 +75,7 @@ export default async function RrhhPage() {
 
   return (
     <div className="flex flex-col gap-5">
+      <AutoRefresh intervalMs={12000} />
       <header>
         <h1 className="text-2xl font-bold">Datos del personal (RRHH)</h1>
         <p className="mt-1 text-sm text-muted">

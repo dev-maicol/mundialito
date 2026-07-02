@@ -2,6 +2,7 @@ import { requireRole, hasRole } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/lib/types";
 import UsuariosList from "@/components/admin/UsuariosList";
+import AutoRefresh from "@/components/AutoRefresh";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,7 @@ export default async function AdminUsuariosPage() {
 
   return (
     <div className="flex flex-col gap-4">
+      <AutoRefresh intervalMs={8000} />
       <h1 className="text-2xl font-extrabold tracking-tight">Usuarios</h1>
       <p className="text-sm text-muted">
         {canManageRoles

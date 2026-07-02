@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getProfile } from "@/lib/auth";
 import LogoutButton from "@/components/LogoutButton";
-import PendingPoller from "@/components/PendingPoller";
+import AutoRefresh from "@/components/AutoRefresh";
 
 export default async function PendingPage() {
   const profile = await getProfile();
@@ -12,7 +12,7 @@ export default async function PendingPage() {
 
   return (
     <div className="flex flex-col gap-4 text-center">
-      {!rechazado && <PendingPoller />}
+      {!rechazado && <AutoRefresh />}
       <div className="text-4xl">{rechazado ? "🚫" : "⏳"}</div>
       <h2 className="text-lg font-semibold">
         {rechazado ? "Cuenta rechazada" : "Cuenta pendiente de aprobación"}

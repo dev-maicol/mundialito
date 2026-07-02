@@ -1,6 +1,7 @@
 import { requireApproved } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { shortName, type Standing } from "@/lib/types";
+import AutoRefresh from "@/components/AutoRefresh";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,7 @@ export default async function RankingPage() {
 
   return (
     <div className="flex flex-col gap-4">
+      <AutoRefresh intervalMs={10000} />
       <h1 className="text-2xl font-extrabold tracking-tight">🏆 Ranking global</h1>
 
       <div className="card overflow-hidden">
