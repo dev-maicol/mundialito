@@ -38,7 +38,7 @@ export default function BetForm({ match }: { match: MatchWithTeams }) {
 
   if (state?.ok) {
     return (
-      <p className="rounded-lg border border-emerald-500/20 bg-brandsoft px-3 py-2 text-center text-sm font-medium text-brand">
+      <p className="rounded-lg border border-blue-500/20 bg-brandsoft px-3 py-2 text-center text-sm font-medium text-brand">
         ¡Pronóstico registrado! ⚽
       </p>
     );
@@ -67,7 +67,7 @@ export default function BetForm({ match }: { match: MatchWithTeams }) {
   const formId = `bet-${match.id}`;
 
   const scoreInput =
-    "w-14 rounded-lg border border-linestrong bg-elevated px-2 py-1 text-center text-lg font-bold text-fg outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30";
+    "w-14 rounded-lg border border-linestrong bg-elevated px-2 py-1 text-center text-lg font-bold text-fg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30";
 
   function teamBtn(teamId: string) {
     const base =
@@ -75,7 +75,7 @@ export default function BetForm({ match }: { match: MatchWithTeams }) {
     if (effectiveWinner === teamId) {
       return (
         base +
-        "border-emerald-500 bg-brandsoft text-brand ring-1 ring-emerald-500/40"
+        "border-blue-500 bg-brandsoft text-brand ring-1 ring-blue-500/40"
       );
     }
     // No seleccionado:

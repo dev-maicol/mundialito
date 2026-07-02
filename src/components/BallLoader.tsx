@@ -26,7 +26,7 @@ export default function BallLoader({
         </motion.div>
         {/* sombra que late */}
         <motion.div
-          className="absolute bottom-0 left-1 h-1.5 w-7 rounded-full bg-emerald-500/30 blur-[2px]"
+          className="absolute bottom-0 left-1 h-1.5 w-7 rounded-full bg-blue-500/30 blur-[2px]"
           animate={{ x: [0, 112, 0], scaleX: [1, 0.7, 1], opacity: [0.5, 0.3, 0.5] }}
           transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
         />

@@ -145,7 +145,7 @@ export default function ResultForm({ match }: { match: MatchWithTeams }) {
       <button
         type="button"
         onClick={openConfirm}
-        className="self-start rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-slate-950 hover:bg-emerald-400 disabled:opacity-50"
+        className="self-start rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-500 disabled:opacity-50"
       >
         {isCorrection ? "Corregir resultado" : "Cargar resultado y dar puntos"}
       </button>

@@ -29,10 +29,10 @@
   --c-fg: #f1f5f9;
   --c-muted: #94a3b8;
   --c-faint: #64748b;
-  --c-brand: #6ee7b7;
-  --c-brandsoft: rgba(16, 185, 129, 0.15);
+  --c-brand: #60a5fa;
+  --c-brandsoft: rgba(37, 99, 235, 0.18);
   --c-overlay: rgba(2, 6, 23, 0.8);
-  --c-glow: rgba(16, 185, 129, 0.14);
+  --c-glow: rgba(37, 99, 235, 0.14);
 }
 
 /* Tema claro */
@@ -47,10 +47,10 @@
   --c-fg: #0f172a;
   --c-muted: #64748b;
   --c-faint: #94a3b8;
-  --c-brand: #047857;
-  --c-brandsoft: rgba(16, 185, 129, 0.12);
+  --c-brand: #1e40af;
+  --c-brandsoft: rgba(37, 99, 235, 0.14);
   --c-overlay: rgba(248, 250, 252, 0.85);
-  --c-glow: rgba(16, 185, 129, 0.1);
+  --c-glow: rgba(37, 99, 235, 0.1);
 }
 
 @layer base {
@@ -83,23 +83,23 @@
   }
 
   .input {
-    @apply w-full rounded-xl border border-linestrong bg-elevated px-3 py-2.5 text-fg outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30;
+    @apply w-full rounded-xl border border-linestrong bg-elevated px-3 py-2.5 text-fg outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30;
   }
   .input::placeholder {
     color: var(--c-faint);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-950 transition-all duration-150 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100;
-    background-image: linear-gradient(to bottom, #34d399, #10b981);
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all duration-150 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100;
+    background-image: linear-gradient(to bottom, #2563eb, #1d4ed8);
     box-shadow:
-      0 6px 18px -4px rgba(16, 185, 129, 0.55),
+      0 6px 18px -4px rgba(37, 99, 235, 0.55),
       inset 0 1px 0 rgba(255, 255, 255, 0.25);
   }
   .btn-primary:hover:not(:disabled) {
     filter: brightness(1.08);
     box-shadow:
-      0 8px 24px -4px rgba(16, 185, 129, 0.7),
+      0 8px 24px -4px rgba(37, 99, 235, 0.7),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
@@ -121,7 +121,7 @@
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent;
   }
 }
 
@@ -144,7 +144,7 @@
 
 /* Brillo pulsante del "VS" */
 @keyframes vs-glow {
-  0%, 100% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.3); }
-  50%      { box-shadow: 0 0 26px rgba(16, 185, 129, 0.8); }
+  0%, 100% { box-shadow: 0 0 12px rgba(37, 99, 235, 0.3); }
+  50%      { box-shadow: 0 0 26px rgba(37, 99, 235, 0.8); }
 }
 .vs-glow { animation: vs-glow 2s ease-in-out infinite; }

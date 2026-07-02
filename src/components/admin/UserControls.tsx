@@ -62,7 +62,7 @@ export default function UserControls({
         <button
           onClick={() => changeStatus("aprobado")}
           disabled={pending}
-          className="rounded bg-emerald-600 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+          className="rounded bg-blue-600 px-2 py-1 text-xs font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
           Aprobar
         </button>

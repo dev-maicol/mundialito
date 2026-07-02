@@ -40,7 +40,7 @@ export default async function MisApuestasPage() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-extrabold tracking-tight">Mis pronósticos</h1>
-        <span className="rounded-lg bg-emerald-500 px-3 py-1 font-bold text-slate-950">
+        <span className="rounded-lg bg-blue-600 px-3 py-1 font-bold text-white">
           {total} pts
         </span>
       </div>

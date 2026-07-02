@@ -79,7 +79,7 @@ export default function RelevamientoWizard({ record, childRows: initialChildren,
   if (locked) {
     return (
       <div className="card p-6">
-        <div className="mb-3 flex items-center gap-2 text-emerald-500">
+        <div className="mb-3 flex items-center gap-2 text-blue-500">
           <CheckCircle2 size={22} />
           <h2 className="text-lg font-semibold">Ficha finalizada</h2>
         </div>
@@ -133,7 +133,7 @@ export default function RelevamientoWizard({ record, childRows: initialChildren,
       </div>
 
       {msg && (
-        <p className={`text-sm ${msg.kind === "ok" ? "text-emerald-500" : "text-red-500"}`}>{msg.text}</p>
+        <p className={`text-sm ${msg.kind === "ok" ? "text-blue-500" : "text-red-500"}`}>{msg.text}</p>
       )}
 
       {/* Navegación */}

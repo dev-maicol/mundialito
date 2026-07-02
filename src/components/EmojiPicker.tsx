@@ -18,7 +18,7 @@ export default function EmojiPicker({
           onClick={() => onChange(e)}
           className={`flex h-9 w-9 items-center justify-center rounded-lg border text-lg transition ${
             value === e
-              ? "border-emerald-500 bg-brandsoft ring-2 ring-emerald-500/40"
+              ? "border-blue-500 bg-brandsoft ring-2 ring-blue-500/40"
               : "border-linestrong hover:bg-elevated"
           }`}
           aria-label={`Elegir ${e}`}

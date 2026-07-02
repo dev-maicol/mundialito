@@ -87,7 +87,7 @@ export default function MatchCard({
     isPastKickoff(match.kickoff_at);
 
   return (
-    <div className="card p-4 transition-colors hover:border-emerald-500/30">
+    <div className="card p-4 transition-colors hover:border-blue-500/30">
       <div className="mb-3 flex items-center justify-between text-xs text-muted">
         <span className="font-medium uppercase tracking-wide">
           {match.phase === "eliminatoria" ? "🏆 Eliminatoria" : "Fase de grupos"}
@@ -96,7 +96,7 @@ export default function MatchCard({
         <span className="flex items-center gap-1.5">
           {bet && !closed && (
             <Tooltip label="Pronósticos hasta el momento">
-              <span className="badge bg-emerald-500/20 font-bold text-emerald-400 ring-1 ring-emerald-500/40">
+              <span className="badge bg-blue-500/20 font-bold text-blue-400 ring-1 ring-blue-500/40">
                 <User size={11} className="mr-0.5" />
                 {betCount}
               </span>

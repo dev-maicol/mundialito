@@ -61,13 +61,13 @@ export default function AppAlerts() {
         >
           <motion.div
             onClick={() => setGained(null)}
-            className="card pointer-events-auto relative flex cursor-pointer flex-col items-center gap-1 overflow-hidden px-10 py-7 text-center ring-1 ring-emerald-500/30"
+            className="card pointer-events-auto relative flex cursor-pointer flex-col items-center gap-1 overflow-hidden px-10 py-7 text-center ring-1 ring-blue-500/30"
             initial={{ scale: 0.6, y: 20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 18 }}
           >
-            <PartyPopper className="text-emerald-400" size={44} />
+            <PartyPopper className="text-blue-400" size={44} />
             <div className="text-sm text-muted">¡Ganaste!</div>
             <div className="text-5xl font-extrabold text-brand">+{gained.total}</div>
             <div className="text-sm font-medium">
@@ -75,7 +75,7 @@ export default function AppAlerts() {
             </div>
             {/* Barra que se reduce indicando el cierre automático */}
             <motion.div
-              className="absolute bottom-0 left-0 h-1 bg-emerald-400"
+              className="absolute bottom-0 left-0 h-1 bg-blue-400"
               initial={{ width: "100%" }}
               animate={{ width: "0%" }}
               transition={{ duration: 5, ease: "linear" }}

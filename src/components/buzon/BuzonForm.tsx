@@ -38,7 +38,7 @@ export default function BuzonForm({
   if (alreadySent) {
     return (
       <div className="card p-6">
-        <div className="mb-3 flex items-center gap-2 text-emerald-500">
+        <div className="mb-3 flex items-center gap-2 text-blue-500">
           <CheckCircle2 size={22} />
           <h2 className="text-lg font-semibold">Reclamo enviado</h2>
         </div>
@@ -65,7 +65,7 @@ export default function BuzonForm({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start gap-2 rounded-xl border border-line bg-elevated p-3 text-xs text-muted">
-        <ShieldCheck size={18} className="mt-0.5 shrink-0 text-emerald-500" />
+        <ShieldCheck size={18} className="mt-0.5 shrink-0 text-blue-500" />
         <span>
           Este buzón es <strong>anónimo</strong>. Mientras sea borrador, solo vos lo ves. Al
           enviarlo, el contenido llega a Gerencia <strong>sin quedar vinculado a tu identidad</strong>.
@@ -96,7 +96,7 @@ export default function BuzonForm({
         </label>
       </div>
 
-      {msg && <p className={`text-sm ${msg.kind === "ok" ? "text-emerald-500" : "text-red-500"}`}>{msg.text}</p>}
+      {msg && <p className={`text-sm ${msg.kind === "ok" ? "text-blue-500" : "text-red-500"}`}>{msg.text}</p>}
 
       <div className="flex flex-wrap items-center gap-2">
         {dirty && (

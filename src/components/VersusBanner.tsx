@@ -54,7 +54,7 @@ export default function VersusBanner({
         animate={{ scale: 1, rotate: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 300, damping: 13, delay: 0.18 }}
       >
-        <span className="vs-glow rounded-full bg-slate-950/85 px-3 py-1 text-lg font-black italic text-emerald-400 ring-1 ring-emerald-500/50">
+        <span className="vs-glow rounded-full bg-slate-950/85 px-3 py-1 text-lg font-black italic text-blue-400 ring-1 ring-blue-500/50">
           VS
         </span>
       </motion.div>

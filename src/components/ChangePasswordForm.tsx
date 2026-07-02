@@ -62,7 +62,7 @@ export default function ChangePasswordForm() {
   if (done) {
     return (
       <div className="flex flex-col items-center gap-3 text-center">
-        <CheckCircle2 className="text-emerald-400" size={48} />
+        <CheckCircle2 className="text-blue-400" size={48} />
         <h2 className="text-lg font-bold">¡Contraseña actualizada!</h2>
         <p className="text-sm text-muted">Te estamos ingresando al sistema…</p>
         <button

@@ -21,7 +21,7 @@ export default function Image() {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "linear-gradient(135deg, #052e2b 0%, #064e3b 45%, #047857 100%)",
+            "linear-gradient(135deg, #0a1633 0%, #172554 45%, #1e40af 100%)",
           color: "white",
           fontFamily: "sans-serif",
         }}

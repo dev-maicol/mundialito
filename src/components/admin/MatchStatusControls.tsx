@@ -35,7 +35,7 @@ export default function MatchStatusControls({
         <button
           onClick={() => change("abierto")}
           disabled={pending}
-          className={`${BTN} bg-emerald-600 text-white hover:bg-emerald-700`}
+          className={`${BTN} bg-blue-600 text-white hover:bg-blue-700`}
         >
           Abrir pronósticos
         </button>

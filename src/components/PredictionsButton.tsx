@@ -134,7 +134,7 @@ export default function PredictionsButton({ match }: { match: MatchWithTeams }) 
                             key={r.user_id}
                             className={`rounded-lg px-3 py-2 ${
                               isMe
-                                ? "bg-brandsoft ring-1 ring-emerald-500/40"
+                                ? "bg-brandsoft ring-1 ring-blue-500/40"
                                 : "bg-elevated/60"
                             }`}
                           >

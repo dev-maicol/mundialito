@@ -51,7 +51,7 @@ function LoginForm() {
       <h2 className="text-lg font-semibold">Iniciar sesión</h2>
 
       {justRegistered && (
-        <p className="rounded-lg border border-emerald-500/20 bg-brandsoft px-3 py-2 text-sm text-brand">
+        <p className="rounded-lg border border-blue-500/20 bg-brandsoft px-3 py-2 text-sm text-brand">
           ¡Cuenta creada! Esperá a que un administrador apruebe tu cuenta para
           poder ingresar.
         </p>

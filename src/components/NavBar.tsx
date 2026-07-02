@@ -20,7 +20,7 @@ type NavProfile = {
 
 function Avatar({ emoji }: { emoji: string }) {
   return (
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-elevated text-lg ring-2 ring-emerald-500/40 shadow-[0_0_12px_-2px_rgba(16,185,129,0.5)]">
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-elevated text-lg ring-2 ring-blue-500/40 shadow-[0_0_12px_-2px_rgba(37, 99, 235,0.5)]">
       {emoji}
     </span>
   );

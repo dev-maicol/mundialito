@@ -103,7 +103,7 @@ function FichasTab({ employees }: { employees: EmployeeFull[] }) {
                   {e.record.department || "—"} · {e.email}
                 </div>
               </div>
-              <span className={`badge ${e.record.status === "finalizado" ? "bg-emerald-500/15 text-emerald-500" : "bg-elevated text-muted"}`}>
+              <span className={`badge ${e.record.status === "finalizado" ? "bg-blue-500/15 text-blue-500" : "bg-elevated text-muted"}`}>
                 {e.record.status}
               </span>
               <ChevronDown size={18} className={`shrink-0 text-muted transition ${isOpen ? "rotate-180" : ""}`} />
