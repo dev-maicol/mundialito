@@ -1,6 +1,6 @@
 import { requireApproved } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { shortName, type Standing } from "@/lib/types";
+import { type Standing } from "@/lib/types";
 import AutoRefresh from "@/components/AutoRefresh";
 
 export const dynamic = "force-dynamic";
@@ -53,7 +53,7 @@ export default async function RankingPage() {
                     <div className="flex min-w-0 items-center gap-1.5">
                       <span className="shrink-0 text-lg">{s.emoji}</span>
                       <span className="truncate">
-                        {shortName(s.full_name)}
+                        {s.full_name?.trim() || "—"}
                       </span>
                     </div>
                   </td>
