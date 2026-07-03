@@ -49,6 +49,7 @@ export default async function PartidosPage() {
           matches={matches}
           bets={betsByMatch}
           betCounts={betCounts}
+          isSuperAdmin={profile.role === "super_admin"}
         />
       )}
     </div>

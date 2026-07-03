@@ -10,10 +10,12 @@ export default function PartidosList({
   matches,
   bets,
   betCounts,
+  isSuperAdmin = false,
 }: {
   matches: MatchWithTeams[];
   bets: Record<string, Bet>;
   betCounts: Record<string, number>;
+  isSuperAdmin?: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("proximos");
 
@@ -79,6 +81,7 @@ export default function PartidosList({
               match={m}
               bet={bets[m.id]}
               betCount={betCounts[m.id] ?? 0}
+              isSuperAdmin={isSuperAdmin}
             />
           ))}
         </div>

@@ -75,10 +75,12 @@ export default function MatchCard({
   match,
   bet,
   betCount = 0,
+  isSuperAdmin = false,
 }: {
   match: MatchWithTeams;
   bet: Bet | undefined;
   betCount?: number;
+  isSuperAdmin?: boolean;
 }) {
   const bettingOpen = match.status === "abierto" && !isPastKickoff(match.kickoff_at);
   const closed =
@@ -94,7 +96,7 @@ export default function MatchCard({
           {match.round_label ? ` · ${match.round_label}` : ""}
         </span>
         <span className="flex items-center gap-1.5">
-          {bet && !closed && (
+          {(bet || isSuperAdmin) && !closed && (
             <Tooltip label="Pronósticos hasta el momento">
               <span className="badge bg-blue-500/20 font-bold text-blue-400 ring-1 ring-blue-500/40">
                 <User size={11} className="mr-0.5" />
